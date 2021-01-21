@@ -1,12 +1,18 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 app = Flask(__name__)
 
-# set optional bootswatch theme
-app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/vivi/src/Vivi-practice/flask-admin-test-repo/admin.db'
+app.config['SECRET_KEY'] = 'secret'
 
-admin = Admin(app, name='microblog', template_mode='bootstrap3')
-# Add administrative views here
+db = SQLAlchemy(app)
 
-app.run()
+class Person(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+
+if __name__ == '__main__':
+    app.run(debug=True)
